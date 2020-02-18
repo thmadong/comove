@@ -11,6 +11,8 @@ In order to make sure what I write is what I am really want to write, I have to 
 
 [CosmWasm](https://github.com/cosmwasm/) 它是首个Cosmos上的智能合约解决方案，感谢Ethan Frey以及其他贡献者在这一领域的探索和贡献。
 
+[Ping.pub](https://ping.pub) 是节点运营商，也是Cosmos生态的参与者，建设者和推广者，至从主网上线以来，我们已经/正在贡献了4个工具/模块，分别是：[LOOK Explorer](https://cosmos.ping.pub)，[PING Wallet](https://wallet.ping.pub)，[Faucet Module](https://github.com/ping-pub/modules/blob/master/incubator/faucet/README.md)，[Co-Move](https://github.com/co-move/)。我们还在中国5个不同城市主办/协办了5场Meetup. 虽然，我们的delegation和我们贡献成反比，但是我们仍然坚持要成为最活跃的贡献者之一。  
+
 ## 关于 GO 和 Rust
 
 Cosmos 使用Go语言开发，而Move VM使用的Rust语言开发。所以，要实现Co-Move, 我们需要解决的第一个问题就是跨语言调用的问题。现在主要有两个成熟的方案可供选择：
