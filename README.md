@@ -51,6 +51,11 @@ Although we introduced the bridge design pattern in the design to reduce the cou
 * Move Bytecode Verifier
 * Move Compiler
 
+## Sponsors
+
+* [ping.pub](https://ping.pub) 
+
+Ping.pub is a validator operator and a participant, builder and promoter in the Cosmos ecosystem. Since the mainnet launch, we have / are contributing 4 tools / modules: [LOOK Explorer](https://cosmos.ping.pub)，[PING Wallet](https://wallet.ping.pub)，[Faucet Module](https://github.com/ping-pub/modules/blob/master/incubator/faucet/README.md)，[Co-Move](https://github.com/co-move/). We also hosted / co-sponsored 5 Meetups in 5 different cities in China. Although our delegation is inversely proportional to our contribution, we still insist on becoming one of the most active contributors.
 
 
 ## 背景
@@ -106,8 +111,6 @@ Move是为Libra而生的，所以他自然留下了Libra深刻的烙印。然而
 ## 赞助商 / Sponsors
 
 * [ping.pub](https://ping.pub) 
-
-Ping.pub is a validator operator and a participant, builder and promoter in the Cosmos ecosystem. Since the mainnet launch, we have / are contributing 4 tools / modules: [LOOK Explorer](https://cosmos.ping.pub)，[PING Wallet](https://wallet.ping.pub)，[Faucet Module](https://github.com/ping-pub/modules/blob/master/incubator/faucet/README.md)，[Co-Move](https://github.com/co-move/). We also hosted / co-sponsored 5 Meetups in 5 different cities in China. Although our delegation is inversely proportional to our contribution, we still insist on becoming one of the most active contributors.
 
 Ping.pub是节点运营商，也是Cosmos生态的参与者，建设者和推广者，至从主网上线以来，我们已经/正在贡献了4个工具/模块，分别是：[LOOK Explorer](https://cosmos.ping.pub)，[PING Wallet](https://wallet.ping.pub)，[Faucet Module](https://github.com/ping-pub/modules/blob/master/incubator/faucet/README.md)，[Co-Move](https://github.com/co-move/)。我们还在中国5个不同城市主办/协办了5场Meetup. 虽然，我们的delegation和我们贡献成反比，但是我们仍然坚持要成为最活跃的贡献者之一。  
 
