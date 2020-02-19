@@ -5,7 +5,7 @@ CoMove is a short name for Cosmos-Move, A Smart Contract Framework on Cosmos Blo
 
 [Cosmos](https://cosmos.network) is a well-known cross-chain blockchain project. It not only provides a blockchain cross-chain solution, but also provides a very excellent blockchain development framework - [Cosmos-SDK](https://github.com/cosmos/cosmos-sdk). In Cosmos's design philosophy, you can develop a completely controllable blockchain for each application. However, in many use cases of DApps, many developers do not want to develop an independent blockchain and operate it because this requires a lot of resources to be successful, the easier way for them is developing DApps on mature blockchains, such as CosmosHub, IrisHub, so smart contracts are still necessary in many scenarios.
 
-[Move](https://github.com/libra/libra/tree/master/language) is a dedicated smart contract programming language created by Facebook Libra. It is small, secure and powerful. But he is still immature and still under heavy development. However, I am convinced that it will be the best smart contract language.
+[Move](https://github.com/libra/libra/tree/master/language) is a dedicated smart contract programming language created by Facebook Libra. It is small, secure and powerful. But it is still immature and still under heavy development. However, I am convinced that it will be the best smart contract language.
 
 [CosmWasm](https://github.com/cosmwasm/) It is the first smart contract solution on Cosmos. Thanks to Ethan Frey and other contributors for their exploration and contribution in this area.
 
