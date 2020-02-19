@@ -1,7 +1,57 @@
-# Co-Move
-Co-Move is a short name for Cosmos-Move, A Smart Contract Framework on Cosmos Blockchain.
+# CoMove
+CoMove is a short name for Cosmos-Move, A Smart Contract Framework on Cosmos Blockchain.
 
-In order to make sure what I write is what I am really want to write, I have to write this document in Chinese. For English readers, my friend Google Translate will help you and he can do a better job in translation than I do.
+## Background
+
+[Cosmos](https://cosmos.network) is a well-known cross-chain blockchain project. It not only provides a blockchain cross-chain solution, but also provides a very excellent blockchain development framework - [Cosmos-SDK](https://github.com/cosmos/cosmos-sdk). In Cosmos's design philosophy, you can develop a completely controllable blockchain for each application. However, in many use cases of DApps, many developers do not want to develop an independent blockchain and operate it because this requires a lot of resources to be successful, the easier way for them is developing DApps on mature blockchains, such as CosmosHub, IrisHub, so smart contracts are still necessary in many scenarios.
+
+[Move](https://github.com/libra/libra/tree/master/language) is a dedicated smart contract programming language created by Facebook Libra. It is small, secure and powerful. But he is still immature and still under heavy development. However, I am convinced that it will be the best smart contract language.
+
+[CosmWasm](https://github.com/cosmwasm/) It is the first smart contract solution on Cosmos. Thanks to Ethan Frey and other contributors for their exploration and contribution in this area.
+
+## About GO and Rust
+
+Cosmos is developed in Go, while Move VM is developed in Rust. So, to implement Co-Move, the first problem we need to solve is cross-language interoperation. There are currently two mature options to choose from:
+
+* CGO + Rust FFI, you can learn more [here](https://github.com/medimatrix/rust-plus-golang).
+* Web Assembly
+
+I personally prefer the CGO + FFI solution. As far as I know, the virtual machine for Web Assembly is also implemented using CGO, so I hope this solution is more direct. Intuitively, ‘Move VM in WebAssembly VM’ looks a little more complicated, although it may not be convincing.
+
+If there is time later, we will consider the solution of inter-cross compilation: [RUSTGO: CALLING RUST FROM GO WITH NEAR-ZERO OVERHEAD](https://blog.filippo.io/rustgo/)
+
+## Design ideas
+
+CoMove plans to provide a set of smart contract tools. it consists of many parts. Considering the limited resources, we plan to focus on the migration of virtual machine and the transformation of the Move programming language. When this infrastructure is complete, let's develop the rest of the work.
+
+Honestly, developing CoMove is a challenging task, and one of the most challenging tasks is how to integrate the Cosmos SDK and Move VM. Usually when dealing with this kind of problem, we will introduce the "bridge" design pattern to ensure that both sides of the integration can be as unchanged as possible. Throughout the implementation we will implement two bridges: Ship and Borrow.
+
+CoMove is mainly composed of the following parts:
+
+### Move Module
+
+It is the implementation of CoMove in the Cosmos SDK, and it is a standard Cosmos Module. It is responsible for implementing the publishing of smart contracts, calling the Move VM to execute smart contracts, and processing the execution results of smart contracts.
+
+### Ship
+
+As we mentioned earlier, Ship is a bridge that connects the module module and the Move VM. Move VM is still in a very active development state, so we need to make a wrapper for it to ensure that we can adapt well to the update of the Move VM. Another important function is that it allows Cosmos Module written in GO language to call Move VM written in Rust language. When the Move VM virtual machine executes a smart contract, many Global States will change according to the execution results, but these changes will not update to blockchain immediately. Instead, a "Write Set" is generated and handed over to an execution module. This is exactly what we need.
+
+### Borrow
+
+Borrow is another bridge we designed to help Move implement some native functions. One of the most important functions is BorrowGlobal. It is used to borrow some read-only Global States during smart contract execution. So we simply call it Borrow.
+
+### Standard Library
+
+Move was born for Libra blockchain, so he naturally left a deep imprint on Libra. After all, Libra and Cosmos are different. We need to provide a standard library for Cosmos.
+
+### Toolset
+
+Although we introduced the bridge design pattern in the design to reduce the coupling between the various components of the system, it does not mean that there is no change. Instead, all key components may actually change. mainly include:
+* Move Virtual Machine
+* Move Bytecode Verifier
+* Move Compiler
+
+
 
 ## 背景
 
@@ -10,8 +60,6 @@ In order to make sure what I write is what I am really want to write, I have to 
 [Move](https://github.com/libra/libra/tree/master/language) 是由Facebook Libra创造的专用智能合约编程语言，它小巧，安全，强大。但是他现在还不成熟，还在紧张的开发中，不过，我深信它会是最好的智能合约语言。
 
 [CosmWasm](https://github.com/cosmwasm/) 它是首个Cosmos上的智能合约解决方案，感谢Ethan Frey以及其他贡献者在这一领域的探索和贡献。
-
-[Ping.pub](https://ping.pub) 是节点运营商，也是Cosmos生态的参与者，建设者和推广者，至从主网上线以来，我们已经/正在贡献了4个工具/模块，分别是：[LOOK Explorer](https://cosmos.ping.pub)，[PING Wallet](https://wallet.ping.pub)，[Faucet Module](https://github.com/ping-pub/modules/blob/master/incubator/faucet/README.md)，[Co-Move](https://github.com/co-move/)。我们还在中国5个不同城市主办/协办了5场Meetup. 虽然，我们的delegation和我们贡献成反比，但是我们仍然坚持要成为最活跃的贡献者之一。  
 
 ## 关于 GO 和 Rust
 
@@ -26,15 +74,15 @@ Cosmos 使用Go语言开发，而Move VM使用的Rust语言开发。所以，要
 
 ## 设计思路
 
-Co-Move计划提供一整套的智能合约工具集。他由很多部分组成。考虑到资源有限，我们计划先将主要精力用在虚拟机的移植和Move编程语言的改造上。等到这些基础设施完成后，我们再来开发剩下来的其他工作。
+CoMove计划提供一整套的智能合约工具集。他由很多部分组成。考虑到资源有限，我们计划先将主要精力用在虚拟机的移植和Move编程语言的改造上。等到这些基础设施完成后，我们再来开发剩下来的其他工作。
 
-老实说，开发Co-Move是一个具有挑战性的工作，其中最具挑战的工作之一就是如何集成Cosmos SDK和Move VM。通常在处理这类问题时候的，我们都会引入"bridge"设计模式，来保证被集成的双方都可以尽可能地保持不变。在整个实现过程中我们将实现两座桥，它们分别是：Ship 和 Borrow。
+老实说，开发CoMove是一个具有挑战性的工作，其中最具挑战的工作之一就是如何集成Cosmos SDK和Move VM。通常在处理这类问题时候的，我们都会引入"bridge"设计模式，来保证被集成的双方都可以尽可能地保持不变。在整个实现过程中我们将实现两座桥，它们分别是：Ship 和 Borrow。
 
-Co-Move主要由以下几个部分组成：
+CoMove主要由以下几个部分组成：
 
 ### Move Module
 
-它是Co-Move在Cosmos SDK的实现，它就是一个标准的Cosmos Module. 负责实现智能合约的发布，调用Move VM来执行智能合约和处理智能合约的执行结果等功能
+它是CoMove在Cosmos SDK的实现，它就是一个标准的Cosmos Module. 负责实现智能合约的发布，调用Move VM来执行智能合约和处理智能合约的执行结果等功能
 
 ### Ship
 
@@ -55,9 +103,13 @@ Move是为Libra而生的，所以他自然留下了Libra深刻的烙印。然而
 * Move Bytecode Verifier
 * Move Compiler
 
-## 赞助商
+## 赞助商 / Sponsors
 
-* ping.pub
+* [ping.pub](https://ping.pub) 
+
+Ping.pub is a validator operator and a participant, builder and promoter in the Cosmos ecosystem. Since the mainnet launch, we have / are contributing 4 tools / modules: [LOOK Explorer](https://cosmos.ping.pub)，[PING Wallet](https://wallet.ping.pub)，[Faucet Module](https://github.com/ping-pub/modules/blob/master/incubator/faucet/README.md)，[Co-Move](https://github.com/co-move/). We also hosted / co-sponsored 5 Meetups in 5 different cities in China. Although our delegation is inversely proportional to our contribution, we still insist on becoming one of the most active contributors.
+
+Ping.pub是节点运营商，也是Cosmos生态的参与者，建设者和推广者，至从主网上线以来，我们已经/正在贡献了4个工具/模块，分别是：[LOOK Explorer](https://cosmos.ping.pub)，[PING Wallet](https://wallet.ping.pub)，[Faucet Module](https://github.com/ping-pub/modules/blob/master/incubator/faucet/README.md)，[Co-Move](https://github.com/co-move/)。我们还在中国5个不同城市主办/协办了5场Meetup. 虽然，我们的delegation和我们贡献成反比，但是我们仍然坚持要成为最活跃的贡献者之一。  
 
 ## Contributors
 
